@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/netip"
@@ -31,7 +32,12 @@ func (ipr *IPRange) SetIps() {
 		}
 
 		for addr := prefix.Addr(); prefix.Contains(addr); addr = addr.Next() {
-			exec.Command("/sbin/ip", "a", "a", addr.String(), "dev", ipr.Device)
+			cmd := exec.Command("/sbin/ip", "a", "a", addr.String(), "dev", ipr.Device)
+			_, err := cmd.Output()
+
+			if err != nil {
+				fmt.Println(err.Error())
+			}
 		}
 	}
 }
