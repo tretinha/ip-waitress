@@ -31,7 +31,7 @@ func (ipr *IPRange) SetIps() {
 		}
 
 		for addr := prefix.Addr(); prefix.Contains(addr); addr = addr.Next() {
-			exec.Command("/sbin/ip", "a", "a", addr.String())
+			exec.Command("/sbin/ip", "a", "a", addr.String(), "dev", ipr.Device)
 		}
 	}
 }
